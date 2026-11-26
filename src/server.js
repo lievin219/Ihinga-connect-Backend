@@ -12,6 +12,10 @@ if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required. Copy .env.example to .env and configure it.");
 }
 
+if (!process.env.JWT_SECRET || Buffer.byteLength(process.env.JWT_SECRET) < 32) {
+  throw new Error("JWT_SECRET must be set to a random value of at least 32 bytes.");
+}
+
 const server = app.listen(port, () => {
   console.log(`Ihinga API listening on port ${port}`);
 });

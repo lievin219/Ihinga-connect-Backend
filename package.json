@@ -5,11 +5,18 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "db:migrate": "node src/migrate.js",
+    "auth:create-admin": "node src/create-admin.js",
+    "test": "node --test"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.10",
     "express": "^5.3.0",
+    "express-rate-limit": "^8.7.5",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^10.6.1",
     "pg": "^8.23.1"
   },
   "devDependencies": {
