@@ -9,6 +9,7 @@ app.get("/api/health", (request, response) => {
   response.json({ status: "ok" });
 });
 
+
 app.get("/api/health/ready", async (request, response) => {
   try {
     await pool.query("SELECT 1");
@@ -18,6 +19,7 @@ app.get("/api/health/ready", async (request, response) => {
     response.status(503).json({ status: "not_ready", database: "unavailable" });
   }
 });
+
 
 app.use((request, response) => {
   response.status(404).json({ error: "Not found" });
