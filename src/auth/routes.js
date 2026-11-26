@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { pool, withTransaction } from "../db.js";
 import { assertEmailConfigured, sendAuthEmail } from "./email.js";
 import { HttpError } from "./errors.js";
+import { asyncRoute } from "../http.js";
 import { authenticate, requireRole } from "./middleware.js";
 import {
   ACCESS_TOKEN_SECONDS,
@@ -51,12 +52,6 @@ const emailActionLimiter = rateLimit({
 });
 
 const dummyPasswordHash = bcrypt.hashSync("ihinga-invalid-login-password", passwordRounds);
-
-function asyncRoute(handler) {
-  return (request, response, next) => {
-    Promise.resolve(handler(request, response, next)).catch(next);
-  };
-}
 
 function publicUser(user) {
   return {

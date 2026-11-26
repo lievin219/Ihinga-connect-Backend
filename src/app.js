@@ -1,5 +1,6 @@
 import express from "express";
 import authRouter from "./auth/routes.js";
+import cropsRouter from "./crops/routes.js";
 import { pool } from "./db.js";
 
 const app = express();
@@ -7,6 +8,7 @@ const app = express();
 app.use(express.json({ limit: "10kb" }));
 
 app.use("/api/auth", authRouter);
+app.use("/api/crops", cropsRouter);
 
 app.get("/api/health", (request, response) => {
   response.json({ status: "ok" });

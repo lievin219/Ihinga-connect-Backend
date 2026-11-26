@@ -37,6 +37,20 @@ All request and response bodies are JSON.
 
 Farmers and customers can self-register. Government and administrator roles cannot be self-selected during registration; an administrator must invite them. Create the first administrator locally with the CLI command above. Email verification and password-reset links point to the matching routes on `APP_BASE_URL`; the frontend should read the `token` query parameter and submit it to the API endpoint listed above.
 
+## Crop listings API
+
+Crop listings can be browsed without signing in. Contact details require a valid bearer access token. Only farmer accounts can create, update, and delete their own listings.
+
+- `GET /api/crops` publicly lists available crops. Optional query parameters: `search`, `district`, `limit` (default 20, maximum 100), and `offset` (default 0).
+- `GET /api/crops/:cropId` publicly returns an available listing without the farmer's phone number.
+- `GET /api/crops/:cropId/contact` returns the farmer's name, phone, and district to any signed-in user.
+- `GET /api/crops/mine` returns all listings belonging to the signed-in farmer, including unavailable listings.
+- `POST /api/crops` creates a listing. Required JSON fields: `cropName`, `quantityAvailable`, and `unit`. Optional `pricePerUnitRwf` is the asking price in Rwandan francs per unit.
+- `PATCH /api/crops/:cropId` updates one or more of `cropName`, `quantityAvailable`, `unit`, `pricePerUnitRwf`, and `isAvailable`. Send `null` for `pricePerUnitRwf` to remove the asking price.
+- `DELETE /api/crops/:cropId` deletes a listing owned by the signed-in farmer.
+
+Quantities support up to three decimal places; asking prices support up to two. The unit is farmer-defined (for example `kg`, `bag`, or `crate`). Decimal values are returned as strings to preserve precision.
+
 ## Health endpoints
 
 - `GET /api/health` checks that the API process is responding.
